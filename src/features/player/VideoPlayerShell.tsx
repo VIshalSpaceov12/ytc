@@ -69,6 +69,12 @@ export function VideoPlayerShell({ youtubeId, gesture, profileId, videoId, onBac
   }, []);
 
   useEffect(() => {
+    if (Platform.OS === 'android') {
+      NavigationBar.setVisibilityAsync(isLocked ? 'hidden' : 'visible');
+    }
+  }, [isLocked]);
+
+  useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
     return () => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP); };
   }, []);
