@@ -17,6 +17,7 @@ import * as Linking from 'expo-linking';
 import { queryClient } from '@/core/query-client';
 import { useAuthBootstrap } from '@/features/auth/useAuthBootstrap';
 import { supabase } from '@/data/supabase';
+import { useForegroundRefetch } from '@/data/sync/useForegroundRefetch';
 
 function useResetDeepLink() {
   useEffect(() => {
@@ -39,6 +40,7 @@ function useResetDeepLink() {
 function Providers({ children }: { children: React.ReactNode }) {
   useAuthBootstrap();
   useResetDeepLink();
+  useForegroundRefetch();
   useEffect(() => { closeStaleSessions().catch(() => {}); }, []);
   return <>{children}</>;
 }
