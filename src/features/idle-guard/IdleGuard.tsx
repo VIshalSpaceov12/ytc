@@ -22,7 +22,6 @@ export function IdleGuard({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     reset();
     return () => { if (timer.current) clearTimeout(timer.current); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <View style={{ flex: 1 }} {...pan.panHandlers}>{children}</View>;

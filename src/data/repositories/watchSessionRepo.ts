@@ -22,7 +22,7 @@ export async function endSession(sessionId: string, secondsWatched: number): Pro
 }
 
 export async function todaySessionsForProfile(profileId: string): Promise<
-  Array<{ startedAt: string; secondsWatched: number }>
+  { startedAt: string; secondsWatched: number }[]
 > {
   const since = new Date(); since.setHours(0, 0, 0, 0);
   const { data, error } = await supabase.from('watch_sessions')
