@@ -55,7 +55,7 @@ export default function KidLibraryScreen() {
 
   return (
     <View style={styles.container}>
-      <TimeRemainingBanner dailyLimitMinutes={profile?.dailyLimitMinutes ?? 0} />
+      <TimeRemainingBanner profileId={pid} />
 
       <View style={styles.header}>
         <Text style={styles.greeting}>

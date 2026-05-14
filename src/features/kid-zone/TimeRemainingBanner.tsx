@@ -1,35 +1,22 @@
-import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useDailyLimitGuard } from './useDailyLimitGuard';
 import { colors, space, font } from '@/core/theme';
 
-type Props = {
-  /** The profile's configured daily limit in minutes (real usage calc lands in Task 62) */
-  dailyLimitMinutes: number;
-};
-
-export function TimeRemainingBanner({ dailyLimitMinutes }: Props) {
+export function TimeRemainingBanner({ profileId }: { profileId: string }) {
   const { t } = useTranslation();
-
+  const remaining = useDailyLimitGuard(profileId);
+  if (remaining === null) return null;
   return (
     <View style={styles.banner}>
       <Text style={styles.text}>
-        {t('kid.timeRemaining', { minutes: dailyLimitMinutes })}
+        {t('kid.timeRemaining', { minutes: Math.max(0, Math.floor(remaining / 60)) })}
       </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  banner: {
-    backgroundColor: colors.accent,
-    paddingVertical: space.sm,
-    paddingHorizontal: space.lg,
-    alignItems: 'center',
-  },
-  text: {
-    color: '#fff',
-    fontSize: font.size.sm,
-    fontWeight: font.weight.medium,
-  },
+  banner: { padding: space.md, backgroundColor: colors.bgDim, alignItems: 'center' },
+  text: { fontSize: font.size.md, fontWeight: '600' },
 });
