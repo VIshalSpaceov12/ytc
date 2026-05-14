@@ -3,6 +3,8 @@ import {
   listVideos, addVideo, renameVideo, deleteVideo, reorderVideos, moveVideoToProfile,
 } from '@/data/repositories/videoRepo';
 import type { NewVideo } from '@/shared/types/video';
+import { db } from '@/data/db/client';
+import { videos as videosTable } from '@/data/db/schema';
 
 function videosKey(profileId: string) {
   return ['videos', profileId] as const;
@@ -11,7 +13,33 @@ function videosKey(profileId: string) {
 export function useVideos(profileId: string) {
   return useQuery({
     queryKey: videosKey(profileId),
-    queryFn: () => listVideos(profileId),
+    queryFn: async () => {
+      const rows = await listVideos(profileId);
+      for (const r of rows) {
+        try {
+          (db.insert(videosTable).values({
+            id: r.id,
+            profileId: r.profileId,
+            youtubeId: r.youtubeId,
+            title: r.title,
+            thumbnailUrl: r.thumbnailUrl ?? null,
+            durationSec: r.durationSec ?? null,
+            sortOrder: r.sortOrder,
+            updatedAt: Date.parse(r.updatedAt),
+          }) as any).onConflictDoUpdate({
+            target: videosTable.id,
+            set: {
+              title: r.title,
+              thumbnailUrl: r.thumbnailUrl ?? null,
+              durationSec: r.durationSec ?? null,
+              sortOrder: r.sortOrder,
+              updatedAt: Date.parse(r.updatedAt),
+            },
+          }).run();
+        } catch { /* cache write best-effort */ }
+      }
+      return rows;
+    },
     enabled: !!profileId,
   });
 }
