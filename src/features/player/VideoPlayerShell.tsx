@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { View, StyleSheet, Pressable, Platform } from 'react-native';
+import { View, StyleSheet, Pressable, Platform, BackHandler } from 'react-native';
 import YoutubeIframe, { PLAYER_STATES } from 'react-native-youtube-iframe';
 import type { YoutubeIframeRef } from 'react-native-youtube-iframe';
 import { useKeepAwake } from 'expo-keep-awake';
@@ -21,6 +21,11 @@ export function VideoPlayerShell({ youtubeId, gesture, onBack }: Props) {
   const { isLocked, overlayVisible, toggleOverlay, hideOverlay, setProgress } = usePlayerStore();
 
   useEffect(() => { configurePlaybackAudioSession(); }, []);
+
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => isLocked);
+    return () => sub.remove();
+  }, [isLocked]);
 
   useEffect(() => {
     if (Platform.OS === 'android') NavigationBar.setVisibilityAsync('hidden');
