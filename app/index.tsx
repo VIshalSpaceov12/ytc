@@ -4,14 +4,14 @@ import { useAuthStore } from '@/features/auth/authStore';
 
 export default function Root() {
   const status = useAuthStore((s) => s.status);
+  const session = useAuthStore((s) => s.session);
   if (status === 'loading') {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator />
-      </View>
-    );
+    return <View style={styles.center}><ActivityIndicator /></View>;
   }
   if (status === 'signed-out') return <Redirect href="/(auth)/sign-in" />;
+  if (session && !session.user.email_confirmed_at && session.user.app_metadata.provider === 'email') {
+    return <Redirect href="/(auth)/verify-email" />;
+  }
   return <Redirect href="/(parent)/dashboard" />;
 }
 
