@@ -33,6 +33,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-router',
     'expo-secure-store',
     ['expo-screen-orientation', { initialOrientation: 'DEFAULT' }],
+    'expo-sqlite',
   ],
   experiments: {
     typedRoutes: true,
