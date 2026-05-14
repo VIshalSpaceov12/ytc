@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { BackHandler } from 'react-native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
+import { useAppStateGuard } from '@/features/kid-zone/useAppStateGuard';
 
 export default function KidLayout() {
+  const router = useRouter();
+
   useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       // Block hardware back button in kid zone
@@ -10,6 +13,12 @@ export default function KidLayout() {
     });
     return () => sub.remove();
   }, []);
+
+  const handleBackground = useCallback(() => {
+    router.replace('/(parent)/profile-picker');
+  }, [router]);
+
+  useAppStateGuard({ onBackground: handleBackground });
 
   return (
     <Stack
