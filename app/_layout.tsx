@@ -1,6 +1,8 @@
 import '@/core/i18n';
 import { initTelemetry } from '@/core/telemetry';
+import { applyInitialSchema } from '@/data/db/client';
 initTelemetry();
+applyInitialSchema();
 import { Stack } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { QueryClientProvider } from '@tanstack/react-query';

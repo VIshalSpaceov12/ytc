@@ -1,5 +1,9 @@
 import 'react-native-gesture-handler/jestSetup';
 
+jest.mock('expo-sqlite', () => ({
+  openDatabaseSync: () => ({ execSync: jest.fn() }),
+}));
+
 jest.mock('react-native-reanimated', () =>
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   require('react-native-reanimated/mock'),
