@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator,
 } from 'react-native';
@@ -6,10 +6,23 @@ import { useRouter } from 'expo-router';
 import { colors, space, font, radius } from '@/core/theme';
 import { useProfiles } from '@/data/queries/profiles';
 import { AvatarTile } from '@/features/profile-picker/AvatarTile';
+import { ForgotGestureLink } from '@/features/player/ForgotGestureLink';
+import { UnlockGestureDetector } from '@/features/player/UnlockGestureDetector';
+import { usePlayerStore } from '@/features/player/playerStore';
 
 export default function ProfilePickerScreen() {
   const router = useRouter();
   const { data: profiles, isLoading } = useProfiles();
+  const [showParentGate, setShowParentGate] = useState(false);
+  const isLocked = usePlayerStore((s) => s.isLocked);
+  const lock = usePlayerStore((s) => s.lock);
+
+  useEffect(() => {
+    if (showParentGate && !isLocked) {
+      setShowParentGate(false);
+      router.push('/(parent)/dashboard' as any);
+    }
+  }, [showParentGate, isLocked, router]);
 
   if (isLoading) {
     return (
@@ -44,11 +57,23 @@ export default function ProfilePickerScreen() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.manageButton}
-          onPress={() => router.push('/(parent)/dashboard')}
+          onPress={() => { lock(); setShowParentGate(true); }}
         >
           <Text style={styles.manageButtonText}>Manage profiles</Text>
         </TouchableOpacity>
       </View>
+
+      {showParentGate && (
+        <View style={StyleSheet.absoluteFill as any}>
+          <View style={{ flex: 1, backgroundColor: '#000' }}>
+            <UnlockGestureDetector gesture={'long_press_3s'} />
+          </View>
+          <ForgotGestureLink visible={true} onReauth={() => {
+            setShowParentGate(false);
+            router.push('/(parent)/dashboard' as any);
+          }} />
+        </View>
+      )}
     </View>
   );
 }
