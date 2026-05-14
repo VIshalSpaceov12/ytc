@@ -1,0 +1,10 @@
+appId: app.ytc.kids
+---
+- launchApp
+- tapOn: "Sign up"
+- inputText: "test@ytc.app"
+- tapOn:
+    id: "password-input"
+- inputText: "TestPass123!"
+- tapOn: "Sign up"
+- assertVisible: "Verify your email"
