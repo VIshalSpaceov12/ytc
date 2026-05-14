@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { VolumeManager } from 'react-native-volume-manager';
+import * as Brightness from 'expo-brightness';
 import { usePlayerStore } from './playerStore';
 import { colors, space, font } from '@/core/theme';
 
@@ -31,6 +32,26 @@ export function CustomControlsOverlay({ playing, onPlayPause, onSeek, onBack }: 
     await VolumeManager.setVolume(v, { showUI: false });
   };
 
+  const [brightness, setBrightness] = useState(0.5);
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      const { status } = await Brightness.requestPermissionsAsync();
+      if (status === 'granted' && mounted) {
+        const b = await Brightness.getBrightnessAsync();
+        setBrightness(b);
+      }
+    })();
+    return () => {
+      mounted = false;
+      Brightness.useSystemBrightnessAsync();
+    };
+  }, []);
+  const onBrightnessChange = async (v: number) => {
+    setBrightness(v);
+    await Brightness.setBrightnessAsync(v);
+  };
+
   return (
     <View style={styles.overlay}>
       <View style={styles.top}>
@@ -52,6 +73,10 @@ export function CustomControlsOverlay({ playing, onPlayPause, onSeek, onBack }: 
         <Text style={styles.time}>🔊</Text>
         <Slider style={styles.slider} minimumValue={0} maximumValue={1}
           value={volume} onValueChange={onVolumeChange}
+          minimumTrackTintColor="#fff" maximumTrackTintColor="rgba(255,255,255,0.4)" />
+        <Text style={styles.time}>☀️</Text>
+        <Slider style={styles.slider} minimumValue={0.1} maximumValue={1}
+          value={brightness} onValueChange={onBrightnessChange}
           minimumTrackTintColor="#fff" maximumTrackTintColor="rgba(255,255,255,0.4)" />
       </View>
     </View>
