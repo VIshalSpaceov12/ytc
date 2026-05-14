@@ -1,6 +1,7 @@
 import '@/core/i18n';
 import { initTelemetry } from '@/core/telemetry';
 import { applyInitialSchema } from '@/data/db/client';
+import { closeStaleSessions } from '@/data/repositories/watchSessionRepo';
 
 initTelemetry();
 applyInitialSchema();
@@ -38,6 +39,7 @@ function useResetDeepLink() {
 function Providers({ children }: { children: React.ReactNode }) {
   useAuthBootstrap();
   useResetDeepLink();
+  useEffect(() => { closeStaleSessions().catch(() => {}); }, []);
   return <>{children}</>;
 }
 
