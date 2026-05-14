@@ -44,7 +44,7 @@ export function CustomControlsOverlay({ playing, onPlayPause, onSeek, onBack }: 
     })();
     return () => {
       mounted = false;
-      Brightness.useSystemBrightnessAsync();
+      Brightness.restoreSystemBrightnessAsync();
     };
   }, []);
   const onBrightnessChange = async (v: number) => {
