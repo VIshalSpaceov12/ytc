@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import Slider from '@react-native-community/slider';
+import { VolumeManager } from 'react-native-volume-manager';
 import { usePlayerStore } from './playerStore';
 import { colors, space, font } from '@/core/theme';
 
@@ -20,6 +22,15 @@ export function CustomControlsOverlay({ playing, onPlayPause, onSeek, onBack }: 
   const { currentSec, durationSec } = usePlayerStore();
   const lock = usePlayerStore((s) => s.lock);
 
+  const [volume, setVolume] = useState(0.5);
+  useEffect(() => {
+    VolumeManager.getVolume().then(({ volume: v }) => setVolume(v));
+  }, []);
+  const onVolumeChange = async (v: number) => {
+    setVolume(v);
+    await VolumeManager.setVolume(v, { showUI: false });
+  };
+
   return (
     <View style={styles.overlay}>
       <View style={styles.top}>
@@ -38,6 +49,10 @@ export function CustomControlsOverlay({ playing, onPlayPause, onSeek, onBack }: 
           value={currentSec} onSlidingComplete={onSeek}
           minimumTrackTintColor="#fff" maximumTrackTintColor="rgba(255,255,255,0.4)" />
         <Text style={styles.time}>{fmt(durationSec)}</Text>
+        <Text style={styles.time}>🔊</Text>
+        <Slider style={styles.slider} minimumValue={0} maximumValue={1}
+          value={volume} onValueChange={onVolumeChange}
+          minimumTrackTintColor="#fff" maximumTrackTintColor="rgba(255,255,255,0.4)" />
       </View>
     </View>
   );
