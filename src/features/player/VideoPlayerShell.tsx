@@ -1,9 +1,11 @@
 import { useRef, useEffect, useState } from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable, Platform } from 'react-native';
 import YoutubeIframe, { PLAYER_STATES } from 'react-native-youtube-iframe';
 import type { YoutubeIframeRef } from 'react-native-youtube-iframe';
 import { useKeepAwake } from 'expo-keep-awake';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import { StatusBar } from 'expo-status-bar';
+import * as NavigationBar from 'expo-navigation-bar';
 import { usePlayerStore } from './playerStore';
 import { configurePlaybackAudioSession } from './audioSession';
 import { CustomControlsOverlay } from './CustomControlsOverlay';
@@ -19,6 +21,13 @@ export function VideoPlayerShell({ youtubeId, gesture, onBack }: Props) {
   const { isLocked, overlayVisible, toggleOverlay, hideOverlay, setProgress } = usePlayerStore();
 
   useEffect(() => { configurePlaybackAudioSession(); }, []);
+
+  useEffect(() => {
+    if (Platform.OS === 'android') NavigationBar.setVisibilityAsync('hidden');
+    return () => {
+      if (Platform.OS === 'android') NavigationBar.setVisibilityAsync('visible');
+    };
+  }, []);
 
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
@@ -43,6 +52,7 @@ export function VideoPlayerShell({ youtubeId, gesture, onBack }: Props) {
 
   return (
     <View style={styles.root}>
+      <StatusBar hidden />
       <YoutubeIframe
         ref={playerRef}
         height={300}
