@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, Text, TouchableOpacity, StyleSheet, Alert, TextInput, Image,
+  View, Text, TouchableOpacity, StyleSheet, Alert, Image,
 } from 'react-native';
 import DraggableFlatList, { RenderItemParams } from 'react-native-draggable-flatlist';
 import { useActionSheet } from '@expo/react-native-action-sheet';

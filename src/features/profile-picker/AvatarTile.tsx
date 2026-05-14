@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
-import { colors, space, radius, font } from '@/core/theme';
+import { colors, space, font } from '@/core/theme';
 import type { KidProfile } from '@/shared/types/kidProfile';
 
 type Props = {

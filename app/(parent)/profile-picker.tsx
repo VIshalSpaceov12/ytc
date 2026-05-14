@@ -21,7 +21,7 @@ export default function ProfilePickerScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Who's watching?</Text>
+      <Text style={styles.title}>{"Who's watching?"}</Text>
 
       <ScrollView contentContainerStyle={styles.grid}>
         {(profiles ?? []).map((profile) => (
