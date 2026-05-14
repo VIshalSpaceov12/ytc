@@ -12,7 +12,7 @@ export default function Root() {
   if (session && !session.user.email_confirmed_at && session.user.app_metadata.provider === 'email') {
     return <Redirect href="/(auth)/verify-email" />;
   }
-  return <Redirect href="/(parent)/dashboard" />;
+  return <Redirect href="/(parent)/profile-picker" />;
 }
 
 const styles = StyleSheet.create({
