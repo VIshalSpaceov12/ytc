@@ -11,15 +11,46 @@ import { configurePlaybackAudioSession } from './audioSession';
 import { CustomControlsOverlay } from './CustomControlsOverlay';
 import { UnlockGestureDetector } from './UnlockGestureDetector';
 import type { UnlockGesture } from '@/shared/types/kidProfile';
+import { startSession, heartbeat, endSession } from '@/data/repositories/watchSessionRepo';
+import { getDeviceId } from '@/core/deviceId';
 
-type Props = { youtubeId: string; gesture: UnlockGesture; onBack: () => void };
+type Props = { youtubeId: string; gesture: UnlockGesture; profileId: string; videoId: string; onBack: () => void };
 
-export function VideoPlayerShell({ youtubeId, gesture, onBack }: Props) {
+export function VideoPlayerShell({ youtubeId, gesture, profileId, videoId, onBack }: Props) {
   useKeepAwake();
   const playerRef = useRef<YoutubeIframeRef>(null);
   const [playing, setPlaying] = useState(true);
   const [needsResume, setNeedsResume] = useState(false);
   const { isLocked, overlayVisible, toggleOverlay, hideOverlay, setProgress } = usePlayerStore();
+
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [secondsWatched, setSecondsWatched] = useState(0);
+
+  useEffect(() => {
+    let activeId: string | null = null;
+    (async () => {
+      const deviceId = await getDeviceId();
+      const id = await startSession(profileId, videoId, deviceId);
+      activeId = id;
+      setSessionId(id);
+    })();
+    return () => {
+      if (activeId) endSession(activeId, secondsWatched).catch(() => {});
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileId, videoId]);
+
+  useEffect(() => {
+    if (!sessionId) return;
+    const id = setInterval(() => {
+      setSecondsWatched((s) => {
+        const next = s + 10;
+        heartbeat(sessionId, next).catch(() => {});
+        return next;
+      });
+    }, 10_000);
+    return () => clearInterval(id);
+  }, [sessionId]);
 
   useEffect(() => { configurePlaybackAudioSession(); }, []);
 

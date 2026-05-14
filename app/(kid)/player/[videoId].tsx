@@ -17,6 +17,8 @@ export default function Player() {
     <VideoPlayerShell
       youtubeId={video.youtubeId}
       gesture={profile.unlockGesture}
+      profileId={profileId ?? ''}
+      videoId={video.id}
       onBack={() => router.back()}
     />
   );
