@@ -7,6 +7,7 @@ import { colors, space, radius, font } from '@/core/theme';
 import { useVideos } from '@/data/queries/videos';
 import { useProfiles } from '@/data/queries/profiles';
 import { TimeRemainingBanner } from '@/features/kid-zone/TimeRemainingBanner';
+import { OfflineBanner } from '@/features/kid-zone/OfflineBanner';
 import { EmptyState } from '@/features/kid-zone/EmptyState';
 import type { Video } from '@/shared/types/video';
 
@@ -55,6 +56,7 @@ export default function KidLibraryScreen() {
 
   return (
     <View style={styles.container}>
+      <OfflineBanner />
       <TimeRemainingBanner profileId={pid} />
 
       <View style={styles.header}>
