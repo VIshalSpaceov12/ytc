@@ -5,6 +5,7 @@ import type { YoutubeIframeRef } from 'react-native-youtube-iframe';
 import { useKeepAwake } from 'expo-keep-awake';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { usePlayerStore } from './playerStore';
+import { configurePlaybackAudioSession } from './audioSession';
 import { CustomControlsOverlay } from './CustomControlsOverlay';
 import { UnlockGestureDetector } from './UnlockGestureDetector';
 import type { UnlockGesture } from '@/shared/types/kidProfile';
@@ -16,6 +17,8 @@ export function VideoPlayerShell({ youtubeId, gesture, onBack }: Props) {
   const playerRef = useRef<YoutubeIframeRef>(null);
   const [playing, setPlaying] = useState(true);
   const { isLocked, overlayVisible, toggleOverlay, hideOverlay, setProgress } = usePlayerStore();
+
+  useEffect(() => { configurePlaybackAudioSession(); }, []);
 
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
