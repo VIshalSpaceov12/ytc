@@ -13,5 +13,6 @@ jest.mock('expo-secure-store', () => ({
 
 jest.mock('expo-localization', () => ({
   getCalendars: () => [{ timeZone: 'America/New_York' }],
+  getLocales: () => [{ languageCode: 'en', regionCode: 'US' }],
   locale: 'en-US',
 }));

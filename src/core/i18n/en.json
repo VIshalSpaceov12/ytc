@@ -1,0 +1,35 @@
+{
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "verifyEmail": "Verify your email to continue",
+    "resend": "Resend"
+  },
+  "kid": {
+    "timeRemaining": "{{minutes}} min left today",
+    "allDone": "All done for today! See you tomorrow 🌙",
+    "emptyLibrary": "Ask a grown-up to add a video! 🎬",
+    "offline": "Oops! We need Wi-Fi 📡",
+    "videoUnavailable": "This video isn't available right now"
+  },
+  "parent": {
+    "addVideo": "Add video",
+    "pasteUrl": "Paste a YouTube link",
+    "dailyLimit": "Daily limit",
+    "unlockGesture": "Unlock gesture",
+    "ads": {
+      "title": "Heads-up about ads",
+      "body": "YouTube may show ads before or during videos. We can't remove them — pick ad-free channels, or use YouTube Premium on this device.",
+      "dismiss": "Got it"
+    }
+  }
+}
