@@ -73,6 +73,8 @@ export default function LibraryScreen() {
       onPressIn={drag}
       delayLongPress={200}
       activeOpacity={0.8}
+      accessibilityRole="button"
+      accessibilityLabel={`Open video menu for ${item.title}`}
     >
       {item.thumbnailUrl ? (
         <Image source={{ uri: item.thumbnailUrl }} style={styles.thumbnail} />
@@ -89,11 +91,19 @@ export default function LibraryScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+        >
           <Text style={styles.backButton}>← Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Library</Text>
-        <TouchableOpacity onPress={() => router.push({ pathname: '/(parent)/profile/[id]/add-video', params: { id: pid } })}>
+        <TouchableOpacity
+          onPress={() => router.push({ pathname: '/(parent)/profile/[id]/add-video', params: { id: pid } })}
+          accessibilityRole="button"
+          accessibilityLabel="Add a video"
+        >
           <Text style={styles.addButton}>+ Add</Text>
         </TouchableOpacity>
       </View>

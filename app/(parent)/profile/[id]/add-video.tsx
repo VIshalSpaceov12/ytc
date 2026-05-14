@@ -69,7 +69,12 @@ export default function AddVideoScreen() {
           keyboardType="url"
           autoCorrect={false}
         />
-        <TouchableOpacity style={styles.parseButton} onPress={handleParseUrl}>
+        <TouchableOpacity
+          style={styles.parseButton}
+          onPress={handleParseUrl}
+          accessibilityRole="button"
+          accessibilityLabel="Check YouTube URL"
+        >
           <Text style={styles.parseButtonText}>Check</Text>
         </TouchableOpacity>
       </View>
@@ -97,6 +102,8 @@ export default function AddVideoScreen() {
         style={[styles.button, (!youtubeId || addVideo.isPending) && styles.buttonDisabled]}
         onPress={handleSave}
         disabled={!youtubeId || addVideo.isPending}
+        accessibilityRole="button"
+        accessibilityLabel="Save video to library"
       >
         {addVideo.isPending ? (
           <ActivityIndicator color="#fff" />

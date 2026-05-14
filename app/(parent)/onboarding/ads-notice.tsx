@@ -18,6 +18,8 @@ export default function AdsNoticeScreen() {
       <TouchableOpacity
         style={styles.button}
         onPress={() => router.replace('/(parent)/profile-picker')}
+        accessibilityRole="button"
+        accessibilityLabel="Dismiss ads notice and continue"
       >
         <Text style={styles.buttonText}>{t('parent.ads.dismiss')}</Text>
       </TouchableOpacity>

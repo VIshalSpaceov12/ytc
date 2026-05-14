@@ -60,6 +60,8 @@ export default function AddKidScreen() {
             key={a}
             style={[styles.chip, age === a && styles.chipSelected]}
             onPress={() => setAge(a)}
+            accessibilityRole="button"
+            accessibilityLabel={`Select age ${a}`}
           >
             <Text style={[styles.chipText, age === a && styles.chipTextSelected]}>{a}</Text>
           </TouchableOpacity>
@@ -73,6 +75,8 @@ export default function AddKidScreen() {
             key={emoji}
             style={[styles.emojiTile, avatarEmoji === emoji && styles.emojiTileSelected]}
             onPress={() => setAvatarEmoji(emoji)}
+            accessibilityRole="button"
+            accessibilityLabel={`Select avatar ${emoji}`}
           >
             <Text style={styles.emoji}>{emoji}</Text>
           </TouchableOpacity>
@@ -83,6 +87,8 @@ export default function AddKidScreen() {
         style={[styles.button, createProfile.isPending && styles.buttonDisabled]}
         onPress={handleContinue}
         disabled={createProfile.isPending}
+        accessibilityRole="button"
+        accessibilityLabel="Continue to set daily limit"
       >
         <Text style={styles.buttonText}>
           {createProfile.isPending ? 'Saving…' : 'Continue'}

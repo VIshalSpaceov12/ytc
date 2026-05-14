@@ -68,7 +68,11 @@ export default function ProfileSettingsScreen() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+        >
           <Text style={styles.backButton}>← Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{`${profile.name}'s Settings`}</Text>
@@ -93,6 +97,8 @@ export default function ProfileSettingsScreen() {
           style={[styles.saveButton, isSaving && styles.buttonDisabled]}
           onPress={handleSave}
           disabled={isSaving}
+          accessibilityRole="button"
+          accessibilityLabel="Save daily limit changes"
         >
           <Text style={styles.saveButtonText}>{isSaving ? 'Saving…' : 'Save changes'}</Text>
         </TouchableOpacity>
@@ -103,6 +109,8 @@ export default function ProfileSettingsScreen() {
         <TouchableOpacity
           style={styles.linkRow}
           onPress={() => router.push({ pathname: '/(parent)/profile/[id]/change-gesture' as any, params: { id } })}
+          accessibilityRole="button"
+          accessibilityLabel="Change unlock gesture"
         >
           <Text style={styles.linkText}>
             {profile.unlockGesture.replace(/_/g, ' ')}
@@ -113,7 +121,12 @@ export default function ProfileSettingsScreen() {
 
       <View style={[styles.section, styles.dangerSection]}>
         <Text style={styles.sectionTitle}>Danger zone</Text>
-        <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={handleDelete}
+          accessibilityRole="button"
+          accessibilityLabel="Delete this profile"
+        >
           <Text style={styles.deleteButtonText}>Delete profile…</Text>
         </TouchableOpacity>
       </View>

@@ -19,7 +19,11 @@ export default function DashboardScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Parent Dashboard</Text>
-        <TouchableOpacity onPress={handleSignOut}>
+        <TouchableOpacity
+          onPress={handleSignOut}
+          accessibilityRole="button"
+          accessibilityLabel="Sign out"
+        >
           <Text style={styles.signOutText}>Sign out</Text>
         </TouchableOpacity>
       </View>
@@ -50,12 +54,16 @@ export default function DashboardScreen() {
                   <TouchableOpacity
                     style={styles.actionButton}
                     onPress={() => router.push({ pathname: '/(parent)/profile/[id]/library', params: { id: profile.id } })}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Open ${profile.name}'s video library`}
                   >
                     <Text style={styles.actionButtonText}>Library</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[styles.actionButton, styles.actionButtonSecondary]}
                     onPress={() => router.push({ pathname: '/(parent)/profile/[id]/settings', params: { id: profile.id } })}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Open ${profile.name}'s settings`}
                   >
                     <Text style={styles.actionButtonSecondaryText}>Settings</Text>
                   </TouchableOpacity>
@@ -67,6 +75,8 @@ export default function DashboardScreen() {
           <TouchableOpacity
             style={styles.addKidButton}
             onPress={() => router.push('/(parent)/onboarding/add-kid')}
+            accessibilityRole="button"
+            accessibilityLabel="Add a new kid profile"
           >
             <Text style={styles.addKidButtonText}>+ Add a kid</Text>
           </TouchableOpacity>

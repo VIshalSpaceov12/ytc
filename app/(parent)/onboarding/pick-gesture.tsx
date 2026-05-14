@@ -40,8 +40,13 @@ export default function PickGesture() {
     <View style={styles.container}>
       <Text style={styles.title}>Pick an unlock gesture</Text>
       {OPTIONS.map((o) => (
-        <Pressable key={o.id} style={[styles.card, selected === o.id && styles.cardActive]}
-          onPress={() => setSelected(o.id)}>
+        <Pressable
+          key={o.id}
+          style={[styles.card, selected === o.id && styles.cardActive]}
+          onPress={() => setSelected(o.id)}
+          accessibilityRole="button"
+          accessibilityLabel={`Select gesture: ${o.label}`}
+        >
           <Text style={styles.label}>{o.label}</Text>
           <Text style={styles.desc}>{o.desc}</Text>
         </Pressable>
@@ -54,8 +59,13 @@ export default function PickGesture() {
           <UnlockGestureDetector gesture={selected} />
         </View>
       </View>
-      <Pressable style={[styles.button, !proven && styles.disabled]}
-        onPress={confirm} disabled={!proven}>
+      <Pressable
+        style={[styles.button, !proven && styles.disabled]}
+        onPress={confirm}
+        disabled={!proven}
+        accessibilityRole="button"
+        accessibilityLabel="Confirm unlock gesture selection"
+      >
         <Text style={styles.buttonText}>Confirm</Text>
       </Pressable>
     </View>

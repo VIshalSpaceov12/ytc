@@ -37,6 +37,8 @@ export default function PickLimitScreen() {
             key={preset}
             style={[styles.preset, minutes === preset && styles.presetSelected]}
             onPress={() => setMinutes(preset)}
+            accessibilityRole="button"
+            accessibilityLabel={`Set daily limit to ${preset} minutes`}
           >
             <Text style={[styles.presetText, minutes === preset && styles.presetTextSelected]}>
               {preset} min
@@ -64,6 +66,8 @@ export default function PickLimitScreen() {
         style={[styles.button, updateProfile.isPending && styles.buttonDisabled]}
         onPress={handleContinue}
         disabled={updateProfile.isPending}
+        accessibilityRole="button"
+        accessibilityLabel="Continue to pick unlock gesture"
       >
         <Text style={styles.buttonText}>
           {updateProfile.isPending ? 'Saving…' : 'Continue'}
