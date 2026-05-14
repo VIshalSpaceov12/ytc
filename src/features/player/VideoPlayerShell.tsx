@@ -13,6 +13,8 @@ import { UnlockGestureDetector } from './UnlockGestureDetector';
 import type { UnlockGesture } from '@/shared/types/kidProfile';
 import { startSession, heartbeat, endSession } from '@/data/repositories/watchSessionRepo';
 import { getDeviceId } from '@/core/deviceId';
+import { useDailyLimitGuard } from '@/features/kid-zone/useDailyLimitGuard';
+import { AllDoneScreen } from '@/features/kid-zone/AllDoneScreen';
 
 type Props = { youtubeId: string; gesture: UnlockGesture; profileId: string; videoId: string; onBack: () => void };
 
@@ -86,6 +88,11 @@ export function VideoPlayerShell({ youtubeId, gesture, profileId, videoId, onBac
     }, 1000);
     return () => clearInterval(id);
   }, [playing, setProgress]);
+
+  const remaining = useDailyLimitGuard(profileId);
+  if (remaining !== null && remaining <= 0) {
+    return <AllDoneScreen onLeave={onBack} />;
+  }
 
   return (
     <View style={styles.root}>
